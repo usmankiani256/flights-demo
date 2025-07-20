@@ -1,20 +1,37 @@
 import { AppTheme } from '@/theme';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { AppScreens, RootStackParamList } from '@/interfaces/navigation';
+import { useAuthService } from '@/hooks/Auth/AuthContext';
 
 export default function SplashScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const { isLoggedIn, isInitialized } = useAuthService();
 
-  useEffect(() => {
-    setTimeout(() => {
+  const handleNavigation = useCallback(async () => {
+    if (isLoggedIn) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: AppScreens.Home }],
+      });
+    } else {
       navigation.reset({
         index: 0,
         routes: [{ name: AppScreens.Login }],
       });
+    }
+  }, [navigation, isLoggedIn]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (isInitialized) {
+        handleNavigation();
+      }
     }, 1000);
-  }, [navigation]);
+
+    return () => clearTimeout(timeoutId);
+  }, [handleNavigation, isInitialized]);
 
   return (
     <View style={styles.container}>
