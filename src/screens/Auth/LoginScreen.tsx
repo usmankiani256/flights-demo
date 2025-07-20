@@ -1,4 +1,9 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import { useCallback, useState } from 'react';
 import {
   View,
@@ -12,29 +17,55 @@ import {
 } from 'react-native';
 import styles from './styles';
 import { AppScreens, RootStackParamList } from '@/interfaces/navigation';
+import { useAuthService } from '@/hooks/Auth/AuthContext';
 
 export default function LoginScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const { signIn, isLoading, isInitialized } = useAuthService();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const route = useRoute<RouteProp<RootStackParamList, AppScreens.Login>>();
+  const { email: initialEmail = '', password: initialPassword = '' } =
+    route.params || {};
+
+  const [email, setEmail] = useState(initialEmail);
+  const [password, setPassword] = useState(initialPassword);
 
   const handleLogin = useCallback(async () => {
-    if (!email || !password) {
-      Alert.alert('Error', 'Please fill in all fields');
+    if (isLoading) {
+      Alert.alert('Error', 'Another login attempt is already in progress');
       return;
     }
 
-    setLoading(true);
-    // TODO: Implement login functionality
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setLoading(false);
-  }, [email, password]);
+    if (!email.trim() || !password.trim()) {
+      Alert.alert('Error', 'Please fill in your email and password');
+      return;
+    }
+
+    if (!email.includes('@')) {
+      Alert.alert('Error', 'Please enter a valid email address');
+      return;
+    }
+
+    const response = await signIn(email, password);
+
+    if (response.error) {
+      Alert.alert(
+        'Error',
+        response.error.message ||
+          'An error occurred while logging in, please try again.',
+      );
+      return;
+    }
+
+    navigation.reset({
+      index: 0,
+      routes: [{ name: AppScreens.Home }],
+    });
+  }, [email, password, isLoading, signIn, navigation]);
 
   const handleSignUp = useCallback(() => {
-    navigation.navigate(AppScreens.SignUp);
-  }, [navigation]);
+    navigation.navigate(AppScreens.SignUp, { email });
+  }, [navigation, email]);
 
   return (
     <KeyboardAvoidingView
@@ -74,18 +105,21 @@ export default function LoginScreen() {
           </View>
 
           <TouchableOpacity
-            style={[styles.button, loading && styles.buttonDisabled]}
+            style={[
+              styles.button,
+              (isLoading || !isInitialized) && styles.buttonDisabled,
+            ]}
             onPress={handleLogin}
-            disabled={loading}
+            disabled={isLoading || !isInitialized}
           >
             <Text style={styles.buttonText}>
-              {loading ? 'Signing In...' : 'Sign In'}
+              {isLoading ? 'Signing In...' : 'Sign In'}
             </Text>
           </TouchableOpacity>
 
           <View style={styles.footer}>
             <Text style={styles.footerText}>Don't have an account? </Text>
-            <TouchableOpacity onPress={handleSignUp}>
+            <TouchableOpacity disabled={isLoading} onPress={handleSignUp}>
               <Text style={styles.emphasis}>Sign Up</Text>
             </TouchableOpacity>
           </View>

@@ -1,4 +1,9 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import { useCallback, useState } from 'react';
 import {
   View,
@@ -13,18 +18,40 @@ import {
 import styles from './styles';
 import { AppTheme } from '@/theme';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { RootStackParamList } from '@/interfaces/navigation';
+import { AppScreens, RootStackParamList } from '@/interfaces/navigation';
+import { useAuthService } from '@/hooks/Auth/AuthContext';
 
 export default function SignUpScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const [email, setEmail] = useState('');
+  const { signUp, isLoading, isInitialized } = useAuthService();
+
+  const route = useRoute<RouteProp<RootStackParamList, AppScreens.SignUp>>();
+  const { email: initialEmail = '' } = route.params || {};
+
+  const [email, setEmail] = useState(initialEmail);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+
+  const onSignUpSuccess = useCallback(() => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: AppScreens.Login, params: { email, password } }],
+    });
+  }, [navigation, email, password]);
 
   const handleSignUp = useCallback(async () => {
-    if (!email || !password || !confirmPassword) {
+    if (isLoading) {
+      Alert.alert('Error', 'Another sign up attempt is already in progress');
+      return;
+    }
+
+    if (!email.trim() || !password.trim() || !confirmPassword.trim()) {
       Alert.alert('Error', 'Please fill in all fields');
+      return;
+    }
+
+    if (!email.includes('@')) {
+      Alert.alert('Error', 'Please enter a valid email address');
       return;
     }
 
@@ -38,28 +65,34 @@ export default function SignUpScreen() {
       return;
     }
 
-    setLoading(true);
-    // TODO: Implement sign up functionality
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setLoading(false);
+    const response = await signUp(email, password);
+
+    if (response.error) {
+      Alert.alert(
+        'Error',
+        response.error.message ||
+          'An error occurred while signing up, please try again.',
+      );
+      return;
+    }
 
     Alert.alert(
       'Success',
       'Account created successfully! Please check your email for verification.',
-      [{ text: 'OK', onPress: () => navigation.goBack() }],
+      [{ text: 'OK', onPress: () => onSignUpSuccess() }],
     );
-  }, [email, password, confirmPassword, navigation]);
-
-  const goBack = useCallback(() => {
-    navigation.goBack();
-  }, [navigation]);
+  }, [email, password, isLoading, confirmPassword, signUp, onSignUpSuccess]);
 
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <TouchableOpacity style={styles.goBackContainer} onPress={goBack}>
+      <TouchableOpacity
+        style={styles.goBackContainer}
+        disabled={isLoading}
+        onPress={navigation.goBack}
+      >
         <Icon name="arrow-left" size={24} color={AppTheme.colors.text} />
       </TouchableOpacity>
 
@@ -108,18 +141,21 @@ export default function SignUpScreen() {
           </View>
 
           <TouchableOpacity
-            style={[styles.button, loading && styles.buttonDisabled]}
+            style={[
+              styles.button,
+              (isLoading || !isInitialized) && styles.buttonDisabled,
+            ]}
             onPress={handleSignUp}
-            disabled={loading}
+            disabled={isLoading || !isInitialized}
           >
             <Text style={styles.buttonText}>
-              {loading ? 'Creating Account...' : 'Sign Up'}
+              {isLoading ? 'Creating Account...' : 'Sign Up'}
             </Text>
           </TouchableOpacity>
 
           <View style={styles.footer}>
             <Text style={styles.footerText}>Already have an account? </Text>
-            <TouchableOpacity onPress={goBack}>
+            <TouchableOpacity disabled={isLoading} onPress={navigation.goBack}>
               <Text style={styles.emphasis}>Sign In</Text>
             </TouchableOpacity>
           </View>

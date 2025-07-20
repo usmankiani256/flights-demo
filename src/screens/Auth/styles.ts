@@ -12,6 +12,10 @@ export default StyleSheet.create({
     width: AppTheme.spacing['5xl'],
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 1,
   },
   scrollContainer: {
     flexGrow: 1,
@@ -61,7 +65,7 @@ export default StyleSheet.create({
     marginTop: AppTheme.spacing.xxl,
   },
   buttonDisabled: {
-    backgroundColor: AppTheme.colors.secondary,
+    backgroundColor: AppTheme.colors.muted,
   },
   buttonText: {
     color: AppTheme.colors.background,
