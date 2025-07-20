@@ -1,15 +1,18 @@
 import * as React from 'react';
 import { createStaticNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SplashScreen } from '@/screens';
+import { LoginScreen, SignUpScreen, SplashScreen } from '@/screens';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { AppTheme } from '@/theme';
+import { AppScreens, RootStackParamList } from '@/interfaces/navigation';
 
-const RootStack = createNativeStackNavigator({
-  initialRouteName: 'Splash',
+const RootStack = createNativeStackNavigator<RootStackParamList>({
+  initialRouteName: AppScreens.Splash,
   screenOptions: { headerShown: false },
   screens: {
-    Splash: SplashScreen,
+    [AppScreens.Splash]: SplashScreen,
+    [AppScreens.Login]: LoginScreen,
+    [AppScreens.SignUp]: SignUpScreen,
   },
 });
 

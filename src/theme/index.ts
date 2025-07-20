@@ -2,10 +2,11 @@ import { AppThemeType } from '@/interfaces';
 
 export const AppTheme: AppThemeType = {
   colors: {
-    primary: '#030213',
+    primary: '#1976d2',
     secondary: '#f1f1f3',
     background: '#ffffff',
     text: '#242424',
+    textSecondary: '#666666',
     card: '#ffffff',
     muted: '#717182',
     destructive: '#d4183d',
@@ -18,6 +19,10 @@ export const AppTheme: AppThemeType = {
     lg: 16,
     xl: 20,
     xxl: 24,
+    '3xl': 32,
+    '4xl': 40,
+    '5xl': 48,
+    '6xl': 64,
   },
   fonts: {
     size: {

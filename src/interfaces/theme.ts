@@ -6,6 +6,7 @@ export interface AppThemeType {
     secondary: string;
     background: string;
     text: string;
+    textSecondary: string;
     card: string;
     muted: string;
     destructive: string;
@@ -18,6 +19,10 @@ export interface AppThemeType {
     lg: number;
     xl: number;
     xxl: number;
+    '3xl': number;
+    '4xl': number;
+    '5xl': number;
+    '6xl': number;
   };
   fonts: {
     size: {
