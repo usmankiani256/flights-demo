@@ -9,7 +9,6 @@ export const useAuth = (): UseAuthReturnType => {
   const [isLoading, setIsLoading] = useState(false);
   const [initialized, setInitialized] = useState(true);
 
-  // console.log('🚀 ~ useAuth:13 ~ value', { user, session });
   /**
    * Initialize auth state
    */
