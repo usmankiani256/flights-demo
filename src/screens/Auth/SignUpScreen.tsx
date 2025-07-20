@@ -110,6 +110,7 @@ export default function SignUpScreen() {
               value={email}
               onChangeText={setEmail}
               placeholder="Enter your email"
+              placeholderTextColor={AppTheme.colors.muted}
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
@@ -123,6 +124,7 @@ export default function SignUpScreen() {
               value={password}
               onChangeText={setPassword}
               placeholder="Enter your password"
+              placeholderTextColor={AppTheme.colors.muted}
               secureTextEntry
               autoCapitalize="none"
             />
@@ -134,7 +136,8 @@ export default function SignUpScreen() {
               style={styles.input}
               value={confirmPassword}
               onChangeText={setConfirmPassword}
-              placeholder="Confirm your password"
+              placeholder="Repeat your password"
+              placeholderTextColor={AppTheme.colors.muted}
               secureTextEntry
               autoCapitalize="none"
             />

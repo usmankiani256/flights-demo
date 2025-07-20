@@ -18,6 +18,7 @@ import {
 import styles from './styles';
 import { AppScreens, RootStackParamList } from '@/interfaces/navigation';
 import { useAuthService } from '@/hooks/Auth/AuthContext';
+import { AppTheme } from '@/theme';
 
 export default function LoginScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -86,6 +87,7 @@ export default function LoginScreen() {
               value={email}
               onChangeText={setEmail}
               placeholder="Enter your email"
+              placeholderTextColor={AppTheme.colors.muted}
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
@@ -99,6 +101,7 @@ export default function LoginScreen() {
               value={password}
               onChangeText={setPassword}
               placeholder="Enter your password"
+              placeholderTextColor={AppTheme.colors.muted}
               secureTextEntry
               autoCapitalize="none"
             />

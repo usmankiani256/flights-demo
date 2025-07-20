@@ -8,7 +8,7 @@ export const AppTheme: AppThemeType = {
     text: '#242424',
     textSecondary: '#666666',
     card: '#ffffff',
-    muted: '#717182',
+    muted: '#919191',
     destructive: '#d4183d',
     border: 'rgba(0, 0, 0, 0.1)',
   },
