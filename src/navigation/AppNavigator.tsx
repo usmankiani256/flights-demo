@@ -3,6 +3,7 @@ import { createStaticNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SplashScreen } from '@/screens';
 import { SafeAreaView, StyleSheet } from 'react-native';
+import { AppTheme } from '@/theme';
 
 const RootStack = createNativeStackNavigator({
   initialRouteName: 'Splash',
@@ -23,5 +24,8 @@ export default function AppNavigator() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1 },
+  root: {
+    flex: 1,
+    backgroundColor: AppTheme.colors.background,
+  },
 });
