@@ -1,5 +1,5 @@
 import { createContext, PropsWithChildren, useContext } from 'react';
-import { UseAuthReturnType } from '@/interfaces/auth';
+import { UseAuthReturnType } from '@/interfaces';
 import { useAuth } from './useAuth';
 
 const AuthContext = createContext<UseAuthReturnType | undefined>(undefined);

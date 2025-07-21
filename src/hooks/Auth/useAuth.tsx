@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AuthError, Session, User } from '@supabase/supabase-js';
-import { supabase } from '@/api/supabase.auth';
-import { UseAuthReturnType } from '@/interfaces/auth';
+import { supabase } from '@/api';
+import { UseAuthReturnType } from '@/interfaces';
 
 export const useAuth = (): UseAuthReturnType => {
   const [session, setSession] = useState<Session | null>(null);

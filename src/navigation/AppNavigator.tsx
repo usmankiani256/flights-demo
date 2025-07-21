@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeScreen, LoginScreen, SignUpScreen, SplashScreen } from '@/screens';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { AppTheme } from '@/theme';
-import { AppScreens, RootStackParamList } from '@/interfaces/navigation';
+import { AppScreens, RootStackParamList } from '@/interfaces';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>({
   initialRouteName: AppScreens.Splash,

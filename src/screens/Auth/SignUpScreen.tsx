@@ -18,8 +18,8 @@ import {
 import styles from './styles';
 import { AppTheme } from '@/theme';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { AppScreens, RootStackParamList } from '@/interfaces/navigation';
-import { useAuthService } from '@/hooks/Auth/AuthContext';
+import { AppScreens, RootStackParamList } from '@/interfaces';
+import { useAuthService } from '@/hooks';
 
 export default function SignUpScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();

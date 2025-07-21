@@ -2,8 +2,8 @@ import { AppTheme } from '@/theme';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useCallback, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { AppScreens, RootStackParamList } from '@/interfaces/navigation';
-import { useAuthService } from '@/hooks/Auth/AuthContext';
+import { AppScreens, RootStackParamList } from '@/interfaces';
+import { useAuthService } from '@/hooks';
 
 export default function SplashScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();

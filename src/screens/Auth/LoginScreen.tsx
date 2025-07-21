@@ -16,8 +16,8 @@ import {
   ScrollView,
 } from 'react-native';
 import styles from './styles';
-import { AppScreens, RootStackParamList } from '@/interfaces/navigation';
-import { useAuthService } from '@/hooks/Auth/AuthContext';
+import { AppScreens, RootStackParamList } from '@/interfaces';
+import { useAuthService } from '@/hooks';
 import { AppTheme } from '@/theme';
 
 export default function LoginScreen() {

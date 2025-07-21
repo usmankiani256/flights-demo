@@ -1,4 +1,4 @@
-import { AuthProvider } from '@/hooks/Auth/AuthContext';
+import { AuthProvider } from '@/hooks';
 import { AppNavigator } from '@/navigation';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
