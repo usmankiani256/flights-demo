@@ -1,18 +1,27 @@
-// import apiClient from './ApiClient';
+import apiClient from './ApiClient';
 import { AirportSearchParams, AirportSearchResponse } from '@/interfaces';
+import { MOCK_DATA } from '@env';
 
 export const searchAirport = async (
   params: AirportSearchParams,
 ): Promise<AirportSearchResponse> => {
-  console.log('API:searchAirport', { params, response: mockData });
-  return mockData;
-  // try {
-  //   const response = await apiClient.get('/searchAirport', { params });
-  //   return response.data;
-  // } catch (error) {
-  //   console.error(error);
-  //   throw error;
-  // }
+  if (MOCK_DATA === 'true') {
+    console.log('API:searchAirport [MOCK MODE]', { params });
+    return mockData;
+  }
+
+  try {
+    console.log('API:searchAirport [LIVE MODE]', { params });
+    const response = await apiClient.get('/searchAirport', { params });
+
+    return response.data;
+  } catch (error: any) {
+    console.error(
+      'Airport search error:',
+      error.response?.data || error.message,
+    );
+    throw error;
+  }
 };
 
 /**

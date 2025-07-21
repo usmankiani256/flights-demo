@@ -27,10 +27,16 @@ yarn install
 2. Set up environment variables in `.env`:
 
 ```bash
-SUPABASE_URL=your_supabase_url
-SUPABASE_ANON_KEY=your_supabase_anon_key
-X_RAPIDAPI_KEY=your_rapidapi_key
+# Supabase Configuration
+SUPABASE_URL=your_supabase_url_here
+SUPABASE_ANON_KEY=your_supabase_anon_key_here
+
+# RapidAPI Configuration (Optional - only needed if using real API)
+X_RAPIDAPI_KEY=your_rapidapi_key_here
 X_RAPIDAPI_HOST=sky-scrapper.p.rapidapi.com
+
+# Development Mode - Set to 'true' to use mock data and avoid CAPTCHA issues
+MOCK_DATA=true
 ```
 
 3. Install iOS dependencies:
@@ -71,3 +77,55 @@ src/
 ├── theme/         # App theme and styling
 └── utils/         # Utility functions
 ```
+
+## Development Mode
+
+### Using Mock Data (Recommended)
+
+The app is configured to use mock data by default to avoid API limitations and CAPTCHA challenges:
+
+```bash
+# In your .env file
+MOCK_DATA=true
+```
+
+### Using Real API
+
+To use the real flight search API:
+
+1. Get API credentials from [RapidAPI](https://rapidapi.com/apiheya/api/sky-scrapper)
+2. Set environment variables:
+
+```bash
+MOCK_DATA=false
+X_RAPIDAPI_KEY=your_actual_key
+X_RAPIDAPI_HOST=sky-scrapper.p.rapidapi.com
+```
+
+⚠️ **Note**: The real API uses bot protection that may trigger CAPTCHA challenges.
+
+## Troubleshooting
+
+### CAPTCHA/Bot Protection Issues
+
+If you see errors like:
+
+```json
+{
+  "status": false,
+  "message": {
+    "action": "captcha"
+  }
+}
+```
+
+**Solutions:**
+
+1. **Use Mock Data** (Recommended): Set `MOCK_DATA=true` in your `.env` file
+2. **Check Console**: Look for warnings about CAPTCHA detection in your logs
+
+### Common Issues
+
+- **"API error occurred"**: Usually means rate limiting or bot protection - app will fall back to mock data
+- **Missing environment variables**: Make sure your `.env` file has all required variables
+- **Build errors**: Run `yarn install` and `cd ios && pod install` to ensure dependencies are up to date

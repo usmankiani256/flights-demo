@@ -3,4 +3,5 @@ declare module '@env' {
   export const SUPABASE_ANON_KEY: string;
   export const X_RAPIDAPI_KEY: string;
   export const X_RAPIDAPI_HOST: string;
+  export const MOCK_DATA: 'true' | 'false';
 }

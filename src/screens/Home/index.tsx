@@ -38,7 +38,6 @@ export default function HomeScreen() {
     handleDepartureDateConfirm,
     handleReturnDateConfirm,
     formatDateDisplay,
-    flightResults,
     isSearchingFlights,
   } = useFlightService();
 
@@ -245,18 +244,6 @@ export default function HomeScreen() {
             </View>
           </View>
         </View>
-
-        {/* Search Results Info */}
-        {flightResults && (
-          <View style={styles.resultsInfo}>
-            <Text style={styles.resultsText}>
-              Found {flightResults.data.itineraries.length} flight options
-            </Text>
-            <Text style={styles.cheapestPrice}>
-              Starting from {flightResults.data.itineraries[0]?.price.formatted}
-            </Text>
-          </View>
-        )}
 
         {/* Search Button */}
         <TouchableOpacity

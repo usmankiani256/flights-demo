@@ -195,14 +195,10 @@ export const useFlightService = () => {
             returnDate: searchParams.returnDate,
           }),
         adults: searchParams.passengers.toString(),
-        sortBy: 'best',
-        currency: 'USD',
-        market: 'en-US',
-        countryCode: 'US',
       };
 
       const results = await searchFlights(flightSearchParams);
-      console.log("🚀 ~ performFlightSearch ~ results:", results);
+      console.log('Flight Results:', results);
       setFlightResults(results);
 
       // Navigate to results screen
@@ -227,7 +223,13 @@ export const useFlightService = () => {
       {
         text: 'Sign Out',
         style: 'destructive',
-        onPress: async () => await signOut(),
+        onPress: async () => {
+          await signOut();
+          navigation.reset({
+            index: 0,
+            routes: [{ name: AppScreens.Login }],
+          });
+        },
       },
     ]);
   };
@@ -236,22 +238,11 @@ export const useFlightService = () => {
     performFlightSearch();
   };
 
-  const onSearchAirport = async (query: string, type: 'from' | 'to') => {
-    console.log('onSearchAirport', { query, type });
-
-    const response = await searchAirport({
-      query,
-      locale: 'en-US',
-    });
-    return response;
-  };
-
   return {
     searchParams,
     setSearchParams,
     handleSearch,
     handleSignOut,
-    onSearchAirport,
     fromQuery,
     setFromQuery,
     toQuery,
