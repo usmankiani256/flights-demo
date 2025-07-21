@@ -5,6 +5,7 @@ export const AppTheme: AppThemeType = {
     primary: '#1976d2',
     secondary: '#f1f1f3',
     background: '#ffffff',
+    accent: '#3300dd88',
     text: '#242424',
     textSecondary: '#666666',
     card: '#ffffff',

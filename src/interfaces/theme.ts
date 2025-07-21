@@ -5,6 +5,7 @@ export interface AppThemeType {
     primary: string;
     secondary: string;
     background: string;
+    accent: string;
     text: string;
     textSecondary: string;
     card: string;
